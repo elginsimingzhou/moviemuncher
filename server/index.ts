@@ -10,8 +10,10 @@ app.use(cors());
 app.use(express.json());
 const PORT = 3000;
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
+app.get("/", async (req: Request, res: Response) => {
+  const response = await fetch(process.env.OMDB_API+'&type=movie&s=batman')
+  const content = await response.json()
+  res.json(content)
 });
 
 app.post("/login", async (req: Request, res: Response) => {
