@@ -19,7 +19,7 @@ const Home = () => {
       <h1 className="text-3xl font-semibold ml-6 mt-6">
         New here? Try searching for your favourite movie! 🎥🍿🥤{" "}
       </h1>
-      <Searchbar />
+      <Searchbar setMovie={setMovies} />
       <ul className="flex flex-wrap">
         {movies.map((movie) => {
           return <MovieComponent movie={movie}/>;

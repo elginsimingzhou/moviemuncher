@@ -2,6 +2,12 @@ import mongoose, { mongo } from "mongoose";
 
 const Schema = mongoose.Schema;
 
+const movieSchema = new Schema({
+  Title: String,
+  Runtime: String,
+  Poster: String,
+}, { _id : false })
+
 const userSchema = new Schema({
   firstname: {
     type: String,
@@ -20,6 +26,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  favourites: [movieSchema]
 });
 
 const User = mongoose.model("User", userSchema);

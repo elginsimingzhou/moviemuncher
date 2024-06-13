@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    const fetchToken = async () => {
+      const response = await fetch("http://localhost:3000/token", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (response.ok) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    };
+    fetchToken();
+  }, []);
   return (
     <nav className="flex flex-row bg-black py-2 px-4 justify-between items-center">
       <span className="flex flex-row items-center font-bold text-2xl">
@@ -182,7 +200,9 @@ const Navbar = () => {
             <path d="M109.39 39.02c-3.36 1.61-3.65 5.93-3.65 5.93l-11.45 66.62l5.37-2.38l13.51-69.84c-.01 0-.84-1.74-3.78-.33z"></path>
           </g>
         </svg>
-        <Link to='/' className="text-white">MovieMuncher</Link>
+        <Link to="/" className="text-white">
+          MovieMuncher
+        </Link>
       </span>
       <ul className="flex flex-row justify-between w-1/4 mx-4">
         <li className="flex">
@@ -195,11 +215,19 @@ const Navbar = () => {
             Watchlist
           </Link>
         </li>
-        <li className="flex">
-          <Link className="text-gray-300" to="/login">
-            Login
-          </Link>
-        </li>
+        {loggedIn ? (
+          <li className="flex">
+            <Link className="text-gray-300" to="/logout">
+              Log out
+            </Link>
+          </li>
+        ) : (
+          <li className="flex">
+            <Link className="text-gray-300" to="/login">
+              Login
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );
