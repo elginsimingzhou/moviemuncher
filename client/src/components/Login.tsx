@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../App";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {setAuthenticated} = useAuth();
 
   const navigate = useNavigate();
 
@@ -23,7 +25,9 @@ const Login = () => {
       });
       if (response.ok) {
         navigate("/");
+        setAuthenticated(true);
       }
+
     } catch (err) {
       console.log(err);
     }

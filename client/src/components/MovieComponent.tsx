@@ -10,7 +10,6 @@ const MovieComponent = ({ movie }: Props) => {
   
   return (
     <li
-      key={movie.imdbID}
       className="flex flex-col flex-wrap mx-8 my-8 w-[300px]"
     >
       <div className="flex items-center w-[300px] h-[400px]">

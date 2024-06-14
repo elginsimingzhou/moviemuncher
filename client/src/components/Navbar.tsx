@@ -1,25 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  useEffect(() => {
-    const fetchToken = async () => {
-      const response = await fetch("http://localhost:3000/token", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-      if (response.ok) {
-        setLoggedIn(true);
-      } else {
-        setLoggedIn(false);
-      }
-    };
-    fetchToken();
-  }, []);
+interface Props {
+  authenticated: boolean,
+}
+
+const Navbar = ({authenticated}: Props) => {
+ 
   return (
     <nav className="flex flex-row bg-black py-2 px-4 justify-between items-center">
       <span className="flex flex-row items-center font-bold text-2xl">
@@ -215,7 +202,7 @@ const Navbar = () => {
             Watchlist
           </Link>
         </li>
-        {loggedIn ? (
+        {authenticated ? (
           <li className="flex">
             <Link className="text-gray-300" to="/logout">
               Log out

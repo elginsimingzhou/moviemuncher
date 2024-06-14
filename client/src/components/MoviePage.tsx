@@ -68,7 +68,7 @@ try {
       <ul className="flex flex-row justify-between w-3/5 my-4">
         {movie?.Ratings.map((rating) => {
           return (
-            <li className="flex justify-center py-2 px-6 border-2 rounded-xl w-[320px] hover:bg-gray-200 hover:text-black">
+            <li key={rating.Source} className="flex justify-center py-2 px-6 border-2 rounded-xl w-[320px] hover:bg-gray-200 hover:text-black">
               {toggleIcon(rating.Source)} {rating.Source}: {rating.Value}
             </li>
           );

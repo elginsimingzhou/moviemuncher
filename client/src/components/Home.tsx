@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Searchbar from "./Searchbar";
 import MovieComponent from "./MovieComponent";
-import Movie from "../types/Movie";
+// import Movie from "../types/Movie";
+import { useMovieContext } from "../App";
 
 const Home = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const {movies, setMovies}= useMovieContext();
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const response = await fetch("http://localhost:3000/");
-      const content = await response.json();
-      return setMovies(content.Search);
+      // console.log(`Home: ${movies}`)
+      if (movies.length===0) {
+        const response = await fetch("http://localhost:3000/");
+        const content = await response.json();
+        return setMovies(content.Search);
+      }
     };
     fetchMovies();
   }, []);
@@ -22,7 +26,7 @@ const Home = () => {
       <Searchbar setMovie={setMovies} />
       <ul className="flex flex-wrap">
         {movies.map((movie) => {
-          return <MovieComponent movie={movie}/>;
+          return <MovieComponent key={movie.imdbID} movie={movie} />;
         })}
       </ul>
     </div>
