@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerHandler } from "../api/registerHandler";
 
 const Register = () => {
   const [firstname, setFirstname] = useState("");
@@ -10,23 +11,16 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    
     e.preventDefault();
-    const response = await fetch("http://localhost:3000/register", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        password: password,
-      }),
-    });
+    const response = await registerHandler(
+      firstname,
+      lastname,
+      email,
+      password
+    );
 
-    if (response.ok){
-        navigate('/login')
+    if (response.ok) {
+      navigate("/login");
     }
   };
   return (

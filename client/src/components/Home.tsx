@@ -3,6 +3,7 @@ import Searchbar from "./Searchbar";
 import MovieComponent from "./MovieComponent";
 // import Movie from "../types/Movie";
 import { useMovieContext } from "../App";
+import { getMovies } from "../api/getMovies";
 
 const Home = () => {
   const {movies, setMovies}= useMovieContext();
@@ -11,9 +12,8 @@ const Home = () => {
     const fetchMovies = async () => {
       // console.log(`Home: ${movies}`)
       if (movies.length===0) {
-        const response = await fetch("http://localhost:3000/");
-        const content = await response.json();
-        return setMovies(content.Search);
+        const fetchedMovies = await getMovies();
+        setMovies(fetchedMovies);
       }
     };
     fetchMovies();

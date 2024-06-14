@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { useAuth } from "../App";
+import { logoutHandler } from "../api/logoutHandler";
 
 const Logout = () => {
   const {setAuthenticated} = useAuth();
   useEffect(()=>{
   const logout = async () => {
-    const response = await fetch("http://localhost:3000/logout", {
-      method: "GET",
-      credentials: "include",
-    });
+    const response = await logoutHandler();
     if (response.ok){
       setAuthenticated(false);
     }

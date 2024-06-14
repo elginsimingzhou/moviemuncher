@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Movie from "../types/Movie";
+import { searchMovie } from "../api/searchMovie";
 
 interface Props {
   setMovie: React.Dispatch<React.SetStateAction<Movie[]>>
@@ -10,11 +11,8 @@ const Searchbar = ({setMovie} : Props) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/search/${searchTerm}`, {
-        method: "POST",
-      });
-      const content = await response.json();
-      setMovie(content.Search);
+      const response = await searchMovie(searchTerm) ;
+      setMovie(response);
     } catch (err) {
       console.log(err);
     }

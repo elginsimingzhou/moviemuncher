@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import FavouriteMovie from "../types/FavouriteMovie";
 import { useAuth } from "../App";
 import { Link } from "react-router-dom";
+import { getFavourites } from "../api/getFavourites";
+import { removeFavourites } from "../api/removeFavourites";
 
 const Watchlist = () => {
   const [favourites, setFavourites] = useState<FavouriteMovie[]>([]);
@@ -10,17 +12,9 @@ const Watchlist = () => {
   useEffect(() => {
     const fetchFavourites = async () => {
       try {
-        const response = await fetch("http://localhost:3000/watchlist", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
-        // console.log(response)
+        const response = await getFavourites();
         if (response.ok) {
           const content = await response.json();
-          // console.log(`content: ${content}`)
           setFavourites(content);
         }
       } catch (err) {
@@ -31,19 +25,8 @@ const Watchlist = () => {
   }, []);
 
   const handleRemove = async (favourite: FavouriteMovie) => {
-    const response = await fetch(
-      `http://localhost:3000/watchlist/delete-favourite/${favourite.Title}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(favourite),
-        credentials: "include",
-      }
-    );
-    const user = await response.json();
-    return setFavourites(user.favourites);
+    const response = await removeFavourites(favourite);
+    setFavourites(response);
   };
 
   return (
@@ -51,11 +34,7 @@ const Watchlist = () => {
       <h1 className="border-b-2 text-3xl font-semibold mx-6 mt-6">
         My watchlist
       </h1>
-      {/* <ul className="flex flex-wrap">
-        {movies.map((movie) => {
-          return <MovieComponent movie={movie}/>;
-        })}
-      </ul> */}
+
       {authenticated ? (
         <table className="mx-6 my-4 border-2 border-black w-3/5 h-full">
           <tbody>

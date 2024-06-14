@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import MovieDetail from "../types/MovieDetail";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { addedFavourite } from "../api/addFavourite";
+import { getMovie } from "../api/getMovie";
 
 const MoviePage = () => {
   const [movie, setMovie] = useState<MovieDetail | null>(null);
@@ -22,18 +24,7 @@ const MoviePage = () => {
 
   const handleAdd = async() => {
 try {
-      const response = await fetch("http://localhost:3000/watchlist/add-favourite", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          Title: movie?.Title,
-          Runtime: movie?.Runtime,
-          Poster: movie?.Poster,
-        }),
-        credentials: "include",
-      });
+      const response = await addedFavourite(movie);
       if (!response.ok){
         console.log('Fail to favourite movie')
       }
@@ -44,9 +35,8 @@ try {
 
   useEffect(() => {
     const fetchMovie = async () => {
-      const response = await fetch(`http://localhost:3000/search/${imdbID}`);
-      const content = await response.json();
-      return setMovie(content);
+      const response = await getMovie(imdbID);
+      setMovie(response);
     };
     fetchMovie();
   }, []);
